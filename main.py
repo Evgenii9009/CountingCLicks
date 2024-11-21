@@ -48,17 +48,7 @@ def is_shorten_link(link):
     else:
         short_link = shorten_link(ACCESS_TOKEN, link)
         return short_link
-        
 
-
-#try:
-#  short_link = shorten_link(ACCESS_TOKEN, link)
-#except KeyError:
-#  print("Введена неправильная ссылка!") # если ошибка
-#try:
-#  counted_clicks = count_clicks(ACCESS_TOKEN, link)
-#except KeyError:
-#  print("Введена неправильная ссылка!") # если ошибка
 
 def main():
     try:
@@ -69,6 +59,7 @@ def main():
             print("Сокращённая ссылка: ", result)
     except KeyError:
         print("Введена неправильная ссылка!")
+
 
 if __name__ == "__main__":
     main()
