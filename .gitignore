@@ -1,3 +1,4 @@
 
 /dotenv-venv
 *.env
+.env.token
