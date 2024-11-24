@@ -57,7 +57,10 @@ def is_shorten_link(access_token, link):
     service_url = "https://api.vk.ru/method/utils.getLinkStats"
     response = requests.get(service_url, params=params, headers=headers)
     decoded_response = response.json()
-    return any('error' not in decoded_response)
+    if 'error' in decoded_response:
+        return False
+    else:
+        return True
 
 
 def main():
