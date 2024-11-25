@@ -15,6 +15,8 @@ def shorten_link(access_token, link):
         }
     service_url = 'https://api.vk.ru/method/utils.getShortLink'
     response = requests.get(service_url, params=params, headers=headers)
+    if not response.ok:
+        response.raise_for_status()
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -35,7 +37,8 @@ def count_clicks(access_token, link):
         }
     service_url = "https://api.vk.ru/method/utils.getLinkStats"
     response = requests.get(service_url, params=params, headers=headers)
-    response.raise_for_status()
+    if not response.ok:
+        response.raise_for_status()
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -56,23 +59,23 @@ def is_shorten_link(access_token, link):
         }
     service_url = "https://api.vk.ru/method/utils.getLinkStats"
     response = requests.get(service_url, params=params, headers=headers)
+    if not response.ok:
+        response.raise_for_status()
     decoded_response = response.json()
-    if 'error' in decoded_response:
-        return False
-    else:
-        return True
+    return 'error' not in decoded_response
+
 
 
 def main():
-    load_dotenv("/home/eugene/DEVMAN_TASKS/CountingCLicks/.env.token")
-    ACCESS_TOKEN = os.environ['VKAPI_TOKEN']
+    load_dotenv()
+    access_token = os.getenv('VKAPI_TOKEN')
     try:
         user_input = input("Введите ссылку: ")
-        if is_shorten_link(ACCESS_TOKEN, user_input):
-            counted_clicks = count_clicks(ACCESS_TOKEN, user_input)
+        if is_shorten_link(access_token, user_input):
+            counted_clicks = count_clicks(access_token, user_input)
             print("Количество кликов:", counted_clicks)
         else:
-            short_link = shorten_link(ACCESS_TOKEN, user_input)
+            short_link = shorten_link(access_token, user_input)
             print("Сокращённая ссылка: ", short_link)
     except requests.exceptions.HTTPError:
         print("Введена неправильная ссылка!")
