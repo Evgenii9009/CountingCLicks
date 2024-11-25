@@ -15,8 +15,7 @@ def shorten_link(access_token, link):
         }
     service_url = 'https://api.vk.ru/method/utils.getShortLink'
     response = requests.get(service_url, params=params, headers=headers)
-    if not response.ok:
-        response.raise_for_status()
+    response.raise_for_status()
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -37,8 +36,7 @@ def count_clicks(access_token, link):
         }
     service_url = "https://api.vk.ru/method/utils.getLinkStats"
     response = requests.get(service_url, params=params, headers=headers)
-    if not response.ok:
-        response.raise_for_status()
+    response.raise_for_status()
     decoded_response = response.json()
     if 'error' in decoded_response:
         raise requests.exceptions.HTTPError(decoded_response['error'])
@@ -59,8 +57,7 @@ def is_shorten_link(access_token, link):
         }
     service_url = "https://api.vk.ru/method/utils.getLinkStats"
     response = requests.get(service_url, params=params, headers=headers)
-    if not response.ok:
-        response.raise_for_status()
+    response.raise_for_status()
     decoded_response = response.json()
     return 'error' not in decoded_response
 
