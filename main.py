@@ -1,8 +1,16 @@
 import requests
+import sys
 import os
+import argparse
 
 
 from dotenv import load_dotenv
+
+
+def create_parser ():
+    parser = argparse.ArgumentParser()
+    parser.add_argument ('--name', default='https://vk.cc/cx80Y1')
+    return parser
 
 
 def shorten_link(access_token, link):
@@ -65,9 +73,11 @@ def is_shorten_link(access_token, link):
 
 def main():
     load_dotenv()
+    parser = create_parser()
+    namespace = parser.parse_args(sys.argv[1:])
     access_token = os.getenv('VKAPI_TOKEN')
     try:
-        user_input = input("Введите ссылку: ")
+        user_input = str(namespace.name)
         if is_shorten_link(access_token, user_input):
             counted_clicks = count_clicks(access_token, user_input)
             print("Количество кликов:", counted_clicks)
