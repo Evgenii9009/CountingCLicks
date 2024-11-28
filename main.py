@@ -7,7 +7,7 @@ import argparse
 from dotenv import load_dotenv
 
 
-def create_parser ():
+def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument ('--name', default='https://vk.cc/cx80Y1')
     return parser
